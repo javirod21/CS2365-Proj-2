@@ -1,6 +1,7 @@
 
 import Deck.Card;
 import Deck.Deck;
+import Statistics.GameStatistics;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,11 +49,17 @@ public class main {
         
         Deck UNODeck = new Deck();
         
-        tempDeckInitializer(UNODeck, colors, special, number);
+        UNODeck=tempDeckInitializer(UNODeck, colors, special, number);
         System.out.println("Adding this line for test commit");
+        Card[] playersCards = new Card[7];
+        for(int i = 0;i<playersCards.length;i++){
+            playersCards[i] = UNODeck.drawCard();
+        }
+        GameStatistics stats = new GameStatistics(playersCards);
+        stats.getColorCount();
     }
     
-    public static void tempDeckInitializer(Deck deck, String[] colors, String[] special, int[] number) {
+    public static Deck tempDeckInitializer(Deck deck, String[] colors, String[] special, int[] number) {
         /**********************************************************************/
         //Hard coded to initialize deck 
         for(int i = 0; i < 108; i++) {
@@ -81,11 +88,12 @@ public class main {
                 deck.addCard(colors[4], special[4], number[19]);
             }
         }
+        return deck;
+//        for (int i = 0; i < 108; i++){
+//            Card currCard = deck.drawCard(); //save the top card and pop it
+//            System.out.println("Color: " + currCard.color + " | Special: " + currCard.special + " | Number: " + currCard.number + " | No. " + Integer.toString(i + 1));
+//        /**********************************************************************/
+//        }
         
-        for (int i = 0; i < 108; i++){
-            Card currCard = deck.drawCard(); //save the top card and pop it
-            System.out.println("Color: " + currCard.color + " | Special: " + currCard.special + " | Number: " + currCard.number + " | No. " + Integer.toString(i + 1));
-        /**********************************************************************/
-        }
     }
 }
