@@ -11,9 +11,9 @@ package Deck;
  * @author Javier
  */
 public class Card {
-    public String color;
-    public String special;
-    public int number;
+    final public String color;
+    final public String special;
+    final public int number;
     
     public Card(String c, String s, int n){
         this.color = c;

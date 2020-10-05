@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Deck;
+import java.util.Random;
 
 /**
  *
@@ -12,10 +13,12 @@ package Deck;
 public class Deck {
     private Card[] deck;
     private int index;
+    final public int maxCards;
     
-    public Deck() {
+    public Deck(int decks, int specials) {
         this.index = 0;
-        this.deck = new Card[108];
+        this.maxCards = (76 + specials) * decks;
+        this.deck = new Card[maxCards];
     }
     
     private Card topCard() {
@@ -39,12 +42,22 @@ public class Deck {
     }
     
     public void addCard(String color, String special, int number) {
-        if (index == 108) {
+        if (index == maxCards) {
             System.out.print("Error: Deck is full, cannot add card");
             return;
         }
         
         this.deck[index] = new Card(color, special, number);
         this.index++;
+    }
+    
+    public void shuffleDeck() {
+       Random rand = new Random();
+       for (int i = 0; i < this.deck.length; i++) {
+           int newRandIndex = rand.nextInt(this.deck.length);
+           Card temp = this.deck[newRandIndex];
+           this.deck[newRandIndex] = this.deck[i];
+           this.deck[i] = temp;
+       }
     }
 }
