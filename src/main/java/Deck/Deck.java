@@ -18,7 +18,7 @@ public class Deck {
         this.deck = new Card[108];
     }
     
-    public Card topCard() {
+    private Card topCard() {
         if (index == 0) {
             System.out.print("Error: Decks is empty, cannot look at top card.");
             return null;
