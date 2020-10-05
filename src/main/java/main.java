@@ -1,7 +1,6 @@
 
 import Deck.Card;
 import Deck.Deck;
-import Statistics.GameStatistics;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +20,7 @@ public class main {
     public static void main(String args[]) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         
+        //Get the number of decks to use
         int decks = 0;
         while(decks < 1 || decks > 3) {
             System.out.println("How many decks do you want to use? [1-3] ");
@@ -28,6 +28,7 @@ public class main {
             decks = Integer.parseInt(d);
         }
         
+        //Shuffle decks together or separate?
         String together = "";
         if(decks > 1) {
             while(!"n".equals(together) && !"y".equals(together)) {
@@ -37,63 +38,94 @@ public class main {
         } else
             together = "y";
         
-        String include_action = "";
-        while(!"n".equals(include_action) && !"y".equals(include_action)) {
+        //Include action cards?
+        String include_specials = "";
+        int specials;
+        while(!"n".equals(include_specials) && !"y".equals(include_specials)) {
             System.out.println("Do you want to include action cards? [Y/N] ");
-            include_action = reader.readLine().toLowerCase();
+            include_specials = reader.readLine().toLowerCase();
         }
+        if ("y".equals(include_specials))
+            specials = 32;
+        else
+            specials = 0;
         
-        String[] colors = {"blue", "yellow", "red", "green", "none"};
-        String[] special = {"Skip", "Draw 2", "Reverse", "Wild", "Wild Draw 4", "none"};
-        int[] number = {0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10};
+        //Create main deck
+        Deck mainDeck;
         
-        Deck UNODeck = new Deck();
+        //Populate main deck after shuffling cards
+        if ("y".equals(together))
+            mainDeck = shuffleTogether(decks, specials, include_specials);
+        else
+            mainDeck = shuffleSeparate(decks, specials, include_specials);
         
-        UNODeck=tempDeckInitializer(UNODeck, colors, special, number);
-        System.out.println("Adding this line for test commit");
-        Card[] playersCards = new Card[7];
-        for(int i = 0;i<playersCards.length;i++){
-            playersCards[i] = UNODeck.drawCard();
+        
+        //shows and empties deck
+        int deckLength = mainDeck.maxCards;
+        for (int i = 0; i < deckLength; i++){
+            Card currCard = mainDeck.drawCard(); //save the top card and pop it
+            System.out.println("Color: " + currCard.color + " | Special: " + currCard.special + " | Number: " + currCard.number + " | No. " + Integer.toString(deckLength - i));
         }
-        GameStatistics stats = new GameStatistics(playersCards);
-        stats.getColorCount();
     }
     
-    public static Deck tempDeckInitializer(Deck deck, String[] colors, String[] special, int[] number) {
-        /**********************************************************************/
-        //Hard coded to initialize deck 
-        for(int i = 0; i < 108; i++) {
-            if (i >= 0 && i < 19)//blue nums
-                deck.addCard(colors[0], special[5], number[i]);
-            else if (i >= 19 && i < 22){//blue specials
-                deck.addCard(colors[0], special[i - 19], number[19]);
-                deck.addCard(colors[0], special[i - 19], number[19]);
-            } else if (i >= 25 && i < 44)//yellow nums
-                deck.addCard(colors[1], special[5], number[i - 25]);
-            else if (i >= 44 && i < 47) {//yellow specials
-                deck.addCard(colors[1], special[i - 44], number[19]);
-                deck.addCard(colors[1], special[i - 44], number[19]);
-            } else if (i >= 50 && i < 69)//red nums
-                deck.addCard(colors[2], special[5], number[i - 50]);
-            else if (i >= 69 && i < 72) {//red specials
-                deck.addCard(colors[2], special[i - 69], number[19]);
-                deck.addCard(colors[2], special[i - 69], number[19]);
-            } else if (i >= 75 && i < 94)//green nums
-                deck.addCard(colors[3], special[5], number[i - 75]);
-            else if (i >= 94 && i < 97) {//green specials
-                deck.addCard(colors[3], special[i - 94], number[19]);
-                deck.addCard(colors[3], special[i - 94], number[19]);
-            } else if(i >= 100 && i < 104){//wild and +4
-                deck.addCard(colors[4], special[3], number[19]);
-                deck.addCard(colors[4], special[4], number[19]);
+    public static Deck deckInitializer(Deck deck, String include_specials, int index) {
+        String[] colors = {"blue", "yellow", "red", "green", "none"};
+        String[] specials = {"Skip", "Draw 2", "Reverse", "Wild", "Wild Draw 4", "none"};
+        int[] number = {0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10};
+        //Hard coded to initialize deck
+        for(int i = 0 + index; i < 108 + index; i++) {
+            if (i >= 0 + index && i < 19 + index)//blue nums
+                deck.addCard(colors[0], specials[5], number[i - index]);
+            else if ("y".contains(include_specials) && i >= 19 + index && i < 22 + index){//blue specials
+                deck.addCard(colors[0], specials[i - index - 19], number[19]);
+                deck.addCard(colors[0], specials[i - index - 19], number[19]);
+            } else if (i >= 25 + index && i < 44 + index)//yellow nums
+                deck.addCard(colors[1], specials[5], number[i - index - 25]);
+            else if ("y".contains(include_specials) && i >= 44 + index && i < 47 + index) {//yellow specials
+                deck.addCard(colors[1], specials[i - index - 44], number[19]);
+                deck.addCard(colors[1], specials[i - index - 44], number[19]);
+            } else if (i >= 50 + index && i < 69 + index)//red nums
+                deck.addCard(colors[2], specials[5], number[i - index - 50]);
+            else if ("y".contains(include_specials) && i >= 69 + index && i < 72 + index) {//red specials
+                deck.addCard(colors[2], specials[i - index - 69], number[19]);
+                deck.addCard(colors[2], specials[i - index - 69], number[19]);
+            } else if (i >= 75 + index && i < 94 + index)//green nums
+                deck.addCard(colors[3], specials[5], number[i - index - 75]);
+            else if ("y".contains(include_specials) && i >= 94 + index && i < 97 + index) {//green specials
+                deck.addCard(colors[3], specials[i - index - 94], number[19]);
+                deck.addCard(colors[3], specials[i - index - 94], number[19]);
+            } else if("y".contains(include_specials) && i >= 100 + index && i < 104 + index){//wild and +4
+                deck.addCard(colors[4], specials[3], number[19]);
+                deck.addCard(colors[4], specials[4], number[19]);
             }
         }
         return deck;
-//        for (int i = 0; i < 108; i++){
-//            Card currCard = deck.drawCard(); //save the top card and pop it
-//            System.out.println("Color: " + currCard.color + " | Special: " + currCard.special + " | Number: " + currCard.number + " | No. " + Integer.toString(i + 1));
-//        /**********************************************************************/
-//        }
-        
     }
+    
+    public static Deck shuffleTogether(int decks, int specials, String include_specials) {
+        Deck deck = new Deck(decks, specials);
+        for(int i = 0; i < decks; i++){
+            int index = i * 108;
+            deck = deckInitializer(deck, include_specials, index);
+        }
+        deck.shuffleDeck();
+        return deck;
+    }
+    
+    public static Deck shuffleSeparate(int decks, int specials, String include_specials) {
+        Deck bigDeck = new Deck(decks, specials);
+        for(int i = 0; i < decks; i++) {
+            Deck smolDeck = new Deck(1, specials);
+            smolDeck = deckInitializer(smolDeck, include_specials, 0);//create mini deck
+            smolDeck.shuffleDeck();//shuffle it
+            
+            int index = smolDeck.maxCards;
+            for (int j = 0; j < index; j++) {
+                Card card = smolDeck.drawCard();
+                bigDeck.addCard(card.color, card.special, card.number);//add mini deck to big deck
+            }
+        }
+        return bigDeck;
+    }
+    
 }
