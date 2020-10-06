@@ -1,6 +1,7 @@
 
 import Deck.Card;
 import Deck.Deck;
+import Statistics.Hand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -61,11 +62,27 @@ public class main {
         
         
         //shows and empties deck
-        int deckLength = mainDeck.maxCards;
-        for (int i = 0; i < deckLength; i++){
-            Card currCard = mainDeck.drawCard(); //save the top card and pop it
-            System.out.println("Color: " + currCard.color + " | Special: " + currCard.special + " | Number: " + currCard.number + " | No. " + Integer.toString(deckLength - i));
+//        int deckLength = mainDeck.maxCards;
+//        for (int i = 0; i < deckLength; i++){
+//            Card currCard = mainDeck.drawCard(); //save the top card and pop it
+//            System.out.println("Color: " + currCard.color + " | Special: " + currCard.special + " | Number: " + currCard.number + " | No. " + Integer.toString(deckLength - i));
+//        }
+        
+        // draw 7 cards for player hand
+        Card[] newHand = new Card[7];
+        for(int i =0;i<newHand.length;i++){
+            newHand[i] = mainDeck.drawCard();
         }
+        Hand stats = new Hand(newHand);
+        
+        // sort hand, get color count
+        stats.sortHand();
+        stats.getColorCount();
+        // show the sorted player hand
+        for(int i = 0;i<stats.playerHand.length;i++){
+            System.out.println("Color: " + stats.playerHand[i].color.toUpperCase() + " Number: " + stats.playerHand[i].number + " Special: " + stats.playerHand[i].special.toUpperCase());
+        }
+        System.out.println();
     }
     
     public static Deck deckInitializer(Deck deck, String include_specials, int index) {
