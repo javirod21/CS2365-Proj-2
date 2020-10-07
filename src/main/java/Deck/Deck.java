@@ -51,6 +51,22 @@ public class Deck {
         this.index++;
     }
     
+    public void addCardBottom(Card card) {
+        if (index == maxCards) {
+            System.out.print("Error: Deck is full, cannot add card");
+            return;
+        }
+        Card moveUp;
+        Card insert = card;
+        
+        for (int i = 0; i < index + 1; i++) {
+            moveUp = this.deck[i];
+            this.deck[i] = insert;
+            insert = moveUp;
+        }
+        index++;
+    }
+    
     public void shuffleDeck() {
        Random rand = new Random();
        for (int i = 0; i < this.deck.length; i++) {
