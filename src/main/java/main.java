@@ -73,12 +73,27 @@ public class main {
         for(int i =0;i<newHand.length;i++){
             newHand[i] = mainDeck.drawCard();
         }
+        // create hand
         Hand stats = new Hand(newHand);
         
-        // sort hand, get color count
+        // get user input to assign workout to card color 
+        System.out.println("Enter workout for Blue Card: ");
+        String blueWork = reader.readLine();
+        System.out.println("Enter workout for Red Card: ");
+        String redWork = reader.readLine();
+        System.out.println("Enter workout for Green Card: ");
+        String greenWork = reader.readLine();
+        System.out.println("Enter workout for Yellow Card: ");
+        String yellowWork = reader.readLine();
+        
+        
+        // sort hand, get color count,assign workout to color 
         stats.sortHand();
+        
+        stats.configureWorkout(blueWork, greenWork, redWork, yellowWork);
         stats.getColorCount();
         // show the sorted player hand
+        System.out.println("PLAYER HAND: ");
         for(int i = 0;i<stats.playerHand.length;i++){
             System.out.println("Color: " + stats.playerHand[i].color.toUpperCase() + " Number: " + stats.playerHand[i].number + " Special: " + stats.playerHand[i].special.toUpperCase());
         }

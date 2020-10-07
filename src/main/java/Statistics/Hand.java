@@ -14,8 +14,14 @@ import Deck.Card;
  * @author David Hoefs
  */
 public class Hand {
+    // array of Card objects - represents the players hand of 7 cards
     public  Card[] playerHand;
+    // int counters to count the number of cards the player has
     public int blueCount = 0,redCount = 0,yellowCount = 0,greenCount= 0,specialCount = 0;
+    // String to assign workout to color
+    public String blueWorkout,greenWorkout,yellowWorkout,redWorkout;
+    
+    // Constructor which initializes the player hand
     public Hand(Card[] inputHand ){
         this.playerHand = inputHand;
     }
@@ -60,6 +66,8 @@ public class Hand {
         
         return this.playerHand[index];
     }
+    
+    // returns the count of each color card
     public void getColorCount(){
         
         for(int i = 0;i<playerHand.length;i++){
@@ -80,12 +88,24 @@ public class Hand {
                 specialCount++;
             }
         }
-        System.out.println("Blue Count: " + blueCount);
-        System.out.println("Red Count: " + redCount);
-        System.out.println("Green Count: " + greenCount);
-        System.out.println("Yellow Count: " + yellowCount);
+        System.out.println("WORKOUT DETAILS: ");
+        System.out.println("Blue Count: " + blueCount + " " + this.blueWorkout);
+        System.out.println("Red Count: " + redCount+ " " + this.redWorkout);
+        System.out.println("Green Count: " + greenCount+ " " + this.greenWorkout);
+        System.out.println("Yellow Count: " + yellowCount+ " " + this.yellowWorkout);
         System.out.println("Special Count: " + specialCount);
+        System.out.println("-------------------------------------------------------");
         
             
+    }
+    // assigns workout to colors
+    public void configureWorkout(String blueWorkout,String greenWorkout,String redWorkout,String yellowWorkout){
+         this.blueWorkout = blueWorkout;
+         this.greenWorkout = greenWorkout;
+         this.redWorkout = redWorkout;
+         this.yellowWorkout = yellowWorkout;
+         for(int i = 0;i<playerHand.length;i++){
+             
+         }
     }
 }

@@ -20,4 +20,5 @@ public class Card {
         this.special = s;
         this.number = n;
     }
+    
 }
