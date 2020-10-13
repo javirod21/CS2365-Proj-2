@@ -88,15 +88,18 @@ public class main {
         
         
         // sort hand, get color count,assign workout to color 
-        stats.sortHand();
+        stats.sortHand(mainDeck);
         
-        stats.configureWorkout(blueWork, greenWork, redWork, yellowWork);
-        stats.getColorCount();
+        
+        
+       
         // show the sorted player hand
         System.out.println("PLAYER HAND: ");
         for(int i = 0;i<stats.playerHand.length;i++){
             System.out.println("Color: " + stats.playerHand[i].color.toUpperCase() + " Number: " + stats.playerHand[i].number + " Special: " + stats.playerHand[i].special.toUpperCase());
         }
+        //stats.reverseAction("blue",mainDeck);
+        stats.configureWorkout(blueWork, greenWork, redWork, yellowWork);
         System.out.println();
     }
     
