@@ -19,7 +19,7 @@ public class Hand {
     public  Card[] playerHand;
     
     // int counters to count the number of cards the player has
-    public int blueCount = 0,redCount = 0,yellowCount = 0,greenCount= 0,specialCount = 0;
+    public int blueCount = 0,redCount = 0,yellowCount = 0,greenCount= 0,specialCount = 0,burpeeCount = 0;
     // String to assign workout to color
     public String blueWorkout,greenWorkout,yellowWorkout,redWorkout;
     
@@ -82,6 +82,11 @@ public class Hand {
                 wildAction4();
                 index++;
                 actionCardCount++;
+            }else if(playerHand[index].special == "Wild"){
+                burpeeCount++;
+                 index++;
+                actionCardCount++;
+                
             }else{
                index++; 
             }
@@ -127,6 +132,15 @@ public class Hand {
             tmpArr[k++] = playerHand[i];
         }
         playerHand = tmpArr;
+        if(color == "blue"){
+            blueCount = 0;
+        }else if(color == "red"){
+            redCount = 0;
+        }else if(color == "green"){
+            greenCount = 0;
+        }else if (color == "yellow"){
+            yellowCount = 0;
+        }
     }
     
     // removes the cards with the color that is passed in from the players hand
@@ -150,6 +164,15 @@ public class Hand {
             tempArr[k++] = playerHand[i];
         }
         playerHand = tempArr;
+        if(color == "blue"){
+            blueCount = 0;
+        }else if(color == "red"){
+            redCount = 0;
+        }else if(color == "green"){
+            greenCount = 0;
+        }else if (color == "yellow"){
+            yellowCount = 0;
+        }
     }
     // multiplies the total number of the specified colored card
     private void drawTwoAction(String color){
@@ -177,6 +200,7 @@ public class Hand {
         greenCount *= 4;
         yellowCount *= 4;
         redCount *= 4;
+        burpeeCount++;
     }
     // returns the count of each color card
     public void getColorCount(){
@@ -233,6 +257,11 @@ public class Hand {
          System.out.println(redWorkout + " " + redCount);
          System.out.println(yellowWorkout + " " + yellowCount);
          System.out.println(greenWorkout + " " + greenCount);
+         for(int i = 0;i<playerHand.length;i++){
+             if(playerHand[i].special == "Wild" || playerHand[i].special == "Wild Draw 4"){
+                System.out.println(burpeeCount * 4 + " BURPEES");
+            }
+         }
          
         
     }

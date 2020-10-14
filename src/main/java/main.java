@@ -94,9 +94,10 @@ public class main {
         
        
         // show the sorted player hand
-        System.out.println("PLAYER HAND: ");
+        System.out.println("PLAYER HAND AFTER ACTION CARDS: ");
         for(int i = 0;i<stats.playerHand.length;i++){
             System.out.println("Color: " + stats.playerHand[i].color.toUpperCase() + " Number: " + stats.playerHand[i].number + " Special: " + stats.playerHand[i].special.toUpperCase());
+            
         }
         //stats.reverseAction("blue",mainDeck);
         stats.configureWorkout(blueWork, greenWork, redWork, yellowWork);
